@@ -1,0 +1,48 @@
+trigger:
+  branches:
+    include:
+      - develop
+
+resources:
+  repositories:
+    - repository: templates
+      type: git
+      name: "Arquitetura/templates-devops"
+      ref: "feature/b2b"
+
+extends:
+  template: pipelines/v1/azure-pipelines-template-servico.yml@templates
+  parameters:
+    nomeServico: mdm-ms-product
+    nomeProjeto: petra2
+    applicationContextPath: /product/
+    ingressContextPath: product
+    k8sNamespace: mdm-integration
+    k8sServiceType: ClusterIP
+    agentAzureDevOps: Azure Pipelines
+    sonarServiceConnection: 'SONARQUBE-DEV-STS-Petra-FaseII'
+    jdkVersion: 17
+    configMapValues: >
+      --from-literal="DATABASE_URI=$(DATABASE_URI)"
+      --from-literal="DATABASE_NAME=$(DATABASE_NAME)"
+      --from-literal="HTTP_ACCESS_LOG_ENABLED=$(HTTP_ACCESS_LOG_ENABLED)"
+      --from-literal="LOG_LEVEL=$(LOG_LEVEL)"
+      --from-literal="AUTH_SERVER_URL=$(AUTH_SERVER_URL)"
+      --from-literal="AUTH_CLIENT_ID=$(AUTH_CLIENT_ID)"
+      --from-literal="AUTH_CREDENTIALS_SECRET=$(AUTH_CREDENTIALS_SECRET)"
+      --from-literal="KAFKA_TOPIC_NAME_KIT_AR_CREATE=$(KAFKA_TOPIC_NAME_KIT_AR_CREATE)"
+      --from-literal="KAFKA_TOPIC_NAME_KIT_AR_UPDATE=$(KAFKA_TOPIC_NAME_KIT_AR_UPDATE)"
+      --from-literal="KAFKA_TOPIC_NAME_ITEM_CREATE=$(KAFKA_TOPIC_NAME_ITEM_CREATE)"
+      --from-literal="KAFKA_TOPIC_NAME_ITEM_UPDATE=$(KAFKA_TOPIC_NAME_ITEM_UPDATE)"
+      --from-literal="KAFKA_TOPIC_NAME_ESTOQUE_CREATE=$(KAFKA_TOPIC_NAME_ESTOQUE_CREATE)"
+      --from-literal="KAFKA_TOPIC_NAME_ESTOQUE_UPDATE=$(KAFKA_TOPIC_NAME_ESTOQUE_UPDATE)"
+      --from-literal="KAFKA_TOPIC_NAME_ITEM_PRICE_CREATE=$(KAFKA_TOPIC_NAME_ITEM_PRICE_CREATE)"
+      --from-literal="KAFKA_TOPIC_NAME_ITEM_PRICE_UPDATE=$(KAFKA_TOPIC_NAME_ITEM_PRICE_UPDATE)"
+      --from-literal="KAFKA_SERVERS=$(KAFKA_SERVERS)"
+      --from-literal="KAFKA_SECURITY_PROTOCOL=$(KAFKA_SECURITY_PROTOCOL)"
+      --from-literal="KAFKA_SASL_MECHANISM=$(KAFKA_SASL_MECHANISM)"
+      --from-literal="KAFKA_JAAS_CONFIG=$(KAFKA_JAAS_CONFIG)"
+      --from-literal="KAFKA_SESSION_TIMEOUT=$(KAFKA_SESSION_TIMEOUT)"
+      --from-literal="KAFKA_OFFSET_RESET=$(KAFKA_OFFSET_RESET)"
+      --from-literal="JAEGER_ENDPOINT=$(JAEGER_ENDPOINT)"
+      --from-literal="JAEGER_SERVICE_NAME=$(JAEGER_SERVICE_NAME)"
